@@ -16,3 +16,5 @@ export const useSearchParams = () => {
     },
   }
 }
+export const notFound = () => {}
+export const nav = () => {}
