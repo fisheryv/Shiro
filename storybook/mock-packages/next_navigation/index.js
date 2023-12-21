@@ -18,3 +18,4 @@ export const useSearchParams = () => {
 }
 export const notFound = () => {}
 export const nav = () => {}
+export const redirect = () => {}
