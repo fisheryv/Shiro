@@ -74,9 +74,9 @@ export const headerMenuConfig: IHeaderMenu[] = [
     ],
   },
   {
-    title: '思考',
-    icon: h(MdiLightbulbOn20),
-    path: '/thinking',
+    title: '项目',
+    icon: h(MdiFlask),
+    path: '/projects',
   },
   {
     title: '更多',
@@ -84,9 +84,9 @@ export const headerMenuConfig: IHeaderMenu[] = [
     path: '#',
     subMenu: [
       {
-        title: '项目',
-        icon: h(MdiFlask),
-        path: '/projects',
+        title: '思考',
+        icon: h(MdiLightbulbOn20),
+        path: '/thinking',
       },
       {
         title: '一言',

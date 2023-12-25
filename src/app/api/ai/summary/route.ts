@@ -60,6 +60,8 @@ export const GET = async (req: NextRequest) => {
   }
   await sql`create table if not exists summary (id int NOT NULL PRIMARY KEY, api_endpoint varchar(30), summary text, lang varchar(10), modified varchar(30), cid varchar(40))`
 
+  console.log(`modified = ${modified}`)
+
   const sqlResult =
     await sql`select * from summary where lang = ${lang} and api_endpoint = ${API_URL} and modified = ${modified} and cid = ${cid}`
 
