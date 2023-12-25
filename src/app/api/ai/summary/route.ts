@@ -58,10 +58,10 @@ export const GET = async (req: NextRequest) => {
       break
     }
   }
-  await sql`create table if not exists ai_summary (id int NOT NULL PRIMARY KEY, api_endpoint varchar(40), summary text, lang varchar(10), modified varchar(30), cid varchar(40))`
+  await sql`create table if not exists summary (id SERIAL PRIMARY KEY, api_endpoint varchar(40), summary text, lang varchar(10), modified varchar(30), cid varchar(40))`
 
   const sqlResult =
-    await sql`select * from ai_summary where lang = ${lang} and api_endpoint = ${API_URL} and modified = ${modified} and cid = ${cid}`
+    await sql`select * from summary where lang = ${lang} and api_endpoint = ${API_URL} and modified = ${modified} and cid = ${cid}`
 
   if (sqlResult.rows.length > 0) {
     return new Response(
@@ -93,7 +93,7 @@ CONCISE SUMMARY:`,
 
   const summary = completion.choices[0].message.content
 
-  await sql`insert into ai_summary (api_endpoint, summary, lang, modified, cid) values (${API_URL}, ${summary}, ${lang}, ${modified}, ${cid})`
+  await sql`insert into summary (api_endpoint, summary, lang, modified, cid) values (${API_URL}, ${summary}, ${lang}, ${modified}, ${cid})`
 
   return new Response(
     JSON.stringify({
