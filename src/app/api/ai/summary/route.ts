@@ -93,6 +93,10 @@ CONCISE SUMMARY:`,
 
   const summary = completion.choices[0].message.content
 
+  console.log(
+    `insert into summary (api_endpoint, summary, lang, modified, cid) values (${API_URL}, ${summary}, ${lang}, ${modified}, ${cid})`,
+  )
+
   await sql`insert into summary (api_endpoint, summary, lang, modified, cid) values (${API_URL}, ${summary}, ${lang}, ${modified}, ${cid})`
 
   return new Response(
