@@ -229,9 +229,9 @@ const PostScreen = () => {
           transition={softSpringPreset}
           className="text-3xl font-medium leading-loose"
         >
-          这里是我数学研习的记录
+          这里有数学研习的记录
           <br />
-          也有对前沿技术的探索。
+          也有对前沿技术的探索
         </m.h2>
         <div>
           <ul className="space-y-4">
@@ -456,9 +456,9 @@ const NoteScreen = () => {
             opacity: 1,
           }}
         >
-          这里是我记录生活的地方，
+          这里是我记录生活の地方
           <br />
-          希望涓滴意念能侥幸汇成河。
+          希望涓滴意念侥幸汇成河
         </m.h2>
       </TwoColumnLayout>
     </Screen>
