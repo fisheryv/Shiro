@@ -1,8 +1,10 @@
-// reverse proxy to github api
+// reverse proxy to themoviedb api
 //
 
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+
+import { NextServerResponse } from '~/lib/edge-function.server'
 
 export const runtime = 'edge'
 export const revalidate = 60 * 60 * 24 // 24 hours
@@ -12,9 +14,19 @@ export const GET = async (req: NextRequest) => {
 
   query.delete('all')
 
+  const res = new NextServerResponse()
+  const allowedTypes = ['tv', 'movie']
+  const allowedPathLength = 2
+  if (
+    pathname.length > allowedPathLength ||
+    !allowedTypes.includes(pathname[0])
+  ) {
+    return res.status(400).send('This request is not allowed')
+  }
+
   const searchString = query.toString()
 
-  const url = `https://api.github.com/${pathname.join('/')}${
+  const url = `https://api.themoviedb.org/3/${pathname.join('/')}${
     searchString ? `?${searchString}` : ''
   }`
 
@@ -23,10 +35,10 @@ export const GET = async (req: NextRequest) => {
     'User-Agent',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko), Shiro',
   )
-  headers.set('Authorization', `Bearer ${process.env.GH_TOKEN}`)
+  headers.set('Authorization', `Bearer ${process.env.TMDB_API_KEY}`)
 
-  if (!process.env.GH_TOKEN) {
-    return NextResponse.error()
+  if (!process.env.TMDB_API_KEY) {
+    return res.status(500).send('TMDB_API_KEY is not set')
   }
 
   const response = await fetch(url, {
