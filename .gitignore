@@ -35,6 +35,6 @@ next-env.d.ts
 
 .env
 .idea
-
+.eslintcache
 
 .vscode/sftp.json

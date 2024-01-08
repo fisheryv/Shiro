@@ -202,9 +202,7 @@ const Welcome = () => {
             'text-neutral-800/80 center dark:text-neutral-200/80',
           )}
         >
-          <small>
-            当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。
-          </small>
+          <small>我闭上眼睛触碰星空，阅读宇宙留给我的盲文。</small>
           <span className="mt-8 animate-bounce">
             <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
           </span>
@@ -231,9 +229,9 @@ const PostScreen = () => {
           transition={softSpringPreset}
           className="text-3xl font-medium leading-loose"
         >
-          这里或许有那么一些对于生活的感慨
+          这里有数学研习的记录
           <br />
-          也或许有那么一些对于技术的记录。
+          也有对前沿技术的探索
         </m.h2>
         <div>
           <ul className="space-y-4">
@@ -458,9 +456,9 @@ const NoteScreen = () => {
             opacity: 1,
           }}
         >
-          而在这里，你会看到一个不同的我，
+          这里是我记录生活の地方
           <br />
-          一个在生活中发现美，感受痛苦，洞察人性的我。
+          希望涓滴意念侥幸汇成河
         </m.h2>
       </TwoColumnLayout>
     </Screen>
