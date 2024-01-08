@@ -27,6 +27,8 @@ export interface LinkCardProps {
   id: string
   source?: LinkCardSource
   className?: string
+
+  fallbackUrl?: string
 }
 
 export const LinkCard = (props: LinkCardProps) => {
@@ -42,22 +44,23 @@ export const LinkCard = (props: LinkCardProps) => {
 }
 
 type CardState = {
-  title: ReactNode
+  title?: ReactNode
   desc?: ReactNode
   image?: string
   color?: string
 
   classNames?: Partial<{
     image: string
+    cardRoot: string
   }>
 }
 
 const LinkCardImpl: FC<LinkCardProps> = (props) => {
-  const { id, source = LinkCardSource.Self, className } = props
+  const { id, source = LinkCardSource.Self, className, fallbackUrl } = props
 
   const [loading, setLoading] = useState(true)
   const [isError, setIsError] = useState(false)
-  const [fullUrl, setFullUrl] = useState('about:blank')
+  const [fullUrl, setFullUrl] = useState(fallbackUrl || 'javascript:;')
 
   const [cardInfo, setCardInfo] = useState<CardState>()
 
@@ -126,13 +129,14 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
       href={fullUrl}
       target={source !== 'self' ? '_blank' : '_self'}
       ref={ref}
-      className={clsx(
+      className={clsxm(
         styles['card-grid'],
         (loading || isError) && styles['skeleton'],
         isError && styles['error'],
         'group',
 
         className,
+        classNames.cardRoot,
       )}
       style={{
         borderColor: cardInfo?.color ? `${cardInfo.color}30` : '',
@@ -237,7 +241,21 @@ const fetchGitHubRepoData: FetchObject = {
       const data = camelcaseKeys(response)
 
       setCardInfo({
-        title: data.name,
+        title: (
+          <span className="flex items-center gap-2">
+            <span className="flex-1">{data.name}</span>
+            <span className="flex-shrink-0 self-end justify-self-end">
+              {data.stargazersCount > 0 && (
+                <span className="inline-flex flex-shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
+                  <i className="icon-[mingcute--star-line]" />
+                  <span className="font-sans font-medium">
+                    {data.stargazersCount}
+                  </span>
+                </span>
+              )}
+            </span>
+          </span>
+        ),
         desc: data.description,
         image: data.owner.avatarUrl,
         color: (LanguageToColorMap as any)[data.language?.toLowerCase()],
@@ -413,6 +431,9 @@ const fetchTheMovieDBData: FetchObject = {
   async fetch(id, setCardInfo, setFullUrl) {
     const [type, realId] = id.split('/')
 
+    setCardInfo({
+      classNames: { cardRoot: '!w-full' },
+    })
     const json = await fetch(`/api/tmdb/${type}/${realId}?language=zh-CN`)
       .then((r) => r.json())
       .catch((err) => {
@@ -450,9 +471,10 @@ const fetchTheMovieDBData: FetchObject = {
       }).color,
 
       classNames: {
-        image: 'self-start mt-4',
+        image: 'self-start !h-[75px] !w-[50px]',
+        cardRoot: '!w-full !flex-row-reverse',
       },
     })
-    setFullUrl(json.homepage)
+    json.homepage && setFullUrl(json.homepage)
   },
 }
