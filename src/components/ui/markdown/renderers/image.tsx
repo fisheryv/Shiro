@@ -56,9 +56,15 @@ export const GridMarkdownImage = (props: any) => {
 export const GridMarkdownImages: FC<{
   imagesSrc: string[]
   Wrapper: Component
-}> = ({ imagesSrc, Wrapper }) => {
+  height: number
+}> = ({ imagesSrc, Wrapper, height = 1 }) => {
   return (
-    <div className="relative pb-[100%]">
+    <div
+      className="relative"
+      style={{
+        paddingBottom: `${height * 100}%`,
+      }}
+    >
       <Wrapper className="absolute inset-0">
         {imagesSrc.map((src) => {
           return <GridZoomImage key={src} src={src} />
@@ -70,7 +76,7 @@ export const GridMarkdownImages: FC<{
 
 const GridZoomImage: FC<{ src: string }> = memo(({ src }) => {
   const { accent, height, width } = useMarkdownImageRecord(src) || {}
-  const cropUrl = addImageUrlResizeQuery(src, 300)
+  const cropUrl = addImageUrlResizeQuery(src, 600)
   const imageEl = useRef<HTMLImageElement>(null)
   const wGreaterThanH = width && height ? width > height : true
 
