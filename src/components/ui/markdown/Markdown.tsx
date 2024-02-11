@@ -41,7 +41,11 @@ import { MTag } from './renderers/tag'
 import { getFootNoteDomId, getFootNoteRefDomId } from './utils/get-id'
 import { redHighlight } from './utils/redHighlight'
 
-const CodeBlock = dynamic(() => import('~/components/modules/shared/CodeBlock'))
+const CodeBlock = dynamic(() =>
+  import('~/components/modules/shared/CodeBlock').then(
+    (mod) => mod.CodeBlockRender,
+  ),
+)
 
 export interface MdProps {
   value?: string
