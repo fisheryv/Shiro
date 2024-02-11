@@ -2,7 +2,7 @@
   "// example app config": "",
   "footer": {
     "otherInfo": {
-      "date": "2020-{{now}}"
+      "date": "2023-{{now}}"
     },
     "linkSections": [
       {
@@ -15,11 +15,6 @@
           {
             "name": "关于我",
             "href": "/about-me"
-          },
-          {
-            "name": "关于此项目",
-            "href": "https://github.com/innei/Shiro",
-            "external": true
           }
         ]
       },
@@ -33,11 +28,6 @@
           {
             "name": "友链",
             "href": "/friends"
-          },
-          {
-            "name": "监控",
-            "href": "https://status.shizuri.net/status/main",
-            "external": true
           }
         ]
       },
@@ -50,12 +40,12 @@
           },
           {
             "name": "发邮件",
-            "href": "mailto:i@innei.ren",
+            "href": "mailto:yverrr@gmail.com",
             "external": true
           },
           {
             "name": "GitHub",
-            "href": "https://github.com/innei",
+            "href": "https://github.com/fisheryv",
             "external": true
           }
         ]
@@ -87,12 +77,12 @@
           },
           {
             "type": "h1",
-            "text": "Innei",
+            "text": "Fisher",
             "class": "font-medium mx-2 text-4xl"
           },
           {
             "type": "h1",
-            "text": "👋。",
+            "text": "🐠.",
             "class": "font-light text-4xl"
           },
           {
@@ -100,7 +90,7 @@
           },
           {
             "type": "h1",
-            "text": "A NodeJS Full Stack ",
+            "text": "A ∑ath Enthusiast  & ",
             "class": "font-light text-4xl"
           },
           {
@@ -114,19 +104,19 @@
           }
         ]
       },
-      "description": "An independent developer coding with love."
+      "description": "A junior high school student with lots of whimsies."
     },
     "module": {
       "donate": {
         "enable": true,
-        "link": "https://afdian.net/@Innei",
+        "link": "https://afdian.net/a/fisheryv",
         "qrcode": [
           "https://cdn.jsdelivr.net/gh/Innei/img-bed@master/20191211132347.png",
           "https://cdn.innei.ren/bed/2023/0424213144.png"
         ]
       },
       "bilibili": {
-        "liveId": 1434499
+        "liveId": 506063593
       }
     }
   }
