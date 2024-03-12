@@ -6,6 +6,10 @@ export const appStaticConfig = {
       providers: ['openai'],
     },
   },
+
+  cache: {
+    enabled: true,
+  },
 }
 
 export const CDN_HOST = 'cdn.innei.ren'
