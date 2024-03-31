@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import type { Metadata } from 'next'
 
@@ -29,6 +30,7 @@ import {
   PageTitle,
 } from './pageExtra'
 
+export const dynamic = 'force-dynamic'
 const getData = async (params: PageParams) => {
   attachUAAndRealIp()
   const data = await getQueryClient()

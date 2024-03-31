@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
+import { BackToTopFAB } from '~/components/ui/fab'
 import { TimelineList } from '~/components/ui/list/TimelineList'
 import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition/BottomToUpSoftScaleTransitionView'
 import { BottomToUpTransitionView } from '~/components/ui/transition/BottomToUpTransitionView'
@@ -54,7 +55,7 @@ export default function Page() {
                 >
                   {child.title}
                 </Link>
-                <span className="meta">
+                <span className="meta ml-2">
                   {(date.getMonth() + 1).toString().padStart(2, '0')}/
                   {date.getDate().toString().padStart(2, '0')}/
                   {date.getFullYear()}
@@ -64,6 +65,7 @@ export default function Page() {
           })}
         </TimelineList>
       </main>
+      <BackToTopFAB />
     </BottomToUpSoftScaleTransitionView>
   )
 }

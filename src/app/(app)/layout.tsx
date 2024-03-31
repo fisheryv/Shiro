@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { cache } from 'react'
 import { ToastContainer } from 'react-toastify'
+import { env, PublicEnvScript } from 'next-runtime-env'
 import type { Metadata, Viewport } from 'next'
 import type { PropsWithChildren } from 'react'
 
@@ -10,6 +11,7 @@ import PKG from '~/../package.json'
 import { Global } from '~/components/common/Global'
 import { HydrationEndDetector } from '~/components/common/HydrationEndDetector'
 import { ScrollTop } from '~/components/common/ScrollTop'
+import { SyncServerTime } from '~/components/common/SyncServerTime'
 import { Root } from '~/components/layout/root/Root'
 import { AccentColorStyleInjector } from '~/components/modules/shared/AccentColorStyleInjector'
 import { SearchPanelWithHotKey } from '~/components/modules/shared/SearchFAB'
@@ -114,7 +116,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
       },
     },
     twitter: {
-      creator: `@${user.username}`,
+      creator: `@${user.socialIds?.twitter || user.socialIds?.x || '__oQuery'}`,
       card: 'summary_large_image',
       title: seo.title,
       description: seo.description,
@@ -128,7 +130,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     },
   } satisfies Metadata
 }
-
+export const dynamic = 'force-dynamic'
 export default async function RootLayout(props: PropsWithChildren) {
   const { children } = props
 
@@ -137,7 +139,7 @@ export default async function RootLayout(props: PropsWithChildren) {
   const themeConfig = data.theme
 
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={env('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY')}>
       <AppFeatureProvider tmdb={!!process.env.TMDB_API_KEY}>
         <html
           lang="zh-CN"
@@ -145,6 +147,7 @@ export default async function RootLayout(props: PropsWithChildren) {
           suppressHydrationWarning
         >
           <head>
+            <PublicEnvScript />
             <Global />
             <SayHi />
             <HydrationEndDetector />
@@ -179,9 +182,11 @@ export default async function RootLayout(props: PropsWithChildren) {
               <TocAutoScroll />
               <SearchPanelWithHotKey />
               <Analyze />
+              <SyncServerTime />
             </WebAppProviders>
             <ToastContainer />
             <ScrollTop />
+            <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)] bg-base-100" />
           </body>
         </html>
       </AppFeatureProvider>

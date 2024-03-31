@@ -37,6 +37,7 @@ export default defineConfig({
     __ROOT__: `"${__dirname}"`,
     __COMPONENT_ROOT__: `"${resolve(__dirname, '..')}"`,
     'process.env': { ...env },
+    __dirname: `"${__dirname}"`,
   },
   base: '',
   resolve: {
@@ -45,6 +46,10 @@ export default defineConfig({
       'next/link': resolve(__dirname, './mock-packages/next_link'),
       'next/dynamic': resolve(__dirname, './mock-packages/next_dynamic'),
       'next/navigation': resolve(__dirname, './mock-packages/next_navigation'),
+      'next-runtime-env': resolve(
+        __dirname,
+        './mock-packages/next-runtime-env',
+      ),
       '~': resolve(__dirname, '../src'),
     },
   },

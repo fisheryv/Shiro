@@ -6,6 +6,7 @@ import { memo, useCallback, useRef, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import Markdown from 'markdown-to-jsx'
 import type { LinkModel } from '@mx-space/api-client'
+import type { FormContextType } from '~/components/ui/form'
 import type { FC } from 'react'
 
 import { LinkState, LinkType, RequestError } from '@mx-space/api-client'
@@ -13,6 +14,7 @@ import { LinkState, LinkType, RequestError } from '@mx-space/api-client'
 import { NotSupport } from '~/components/common/NotSupport'
 import { Avatar } from '~/components/ui/avatar'
 import { StyledButton } from '~/components/ui/button'
+import { BackToTopFAB } from '~/components/ui/fab'
 import { Form, FormInput } from '~/components/ui/form'
 import { Loading } from '~/components/ui/loading'
 import { useModalStack } from '~/components/ui/modal'
@@ -107,6 +109,7 @@ export default function Page() {
       </main>
 
       <ApplyLinkInfo />
+      <BackToTopFAB />
     </div>
   )
 }
@@ -169,7 +172,7 @@ const Card: FC<{ link: LinkModel }> = ({ link }) => {
       />
       <span className="flex h-full flex-col items-center justify-center space-y-2 py-3">
         <span className="text-lg font-medium">{link.name}</span>
-        <span className="line-clamp-2 break-all text-sm text-base-content/80">
+        <span className="line-clamp-2 text-balance break-all text-center text-sm text-base-content/80">
           {link.description}
         </span>
       </span>
@@ -295,7 +298,7 @@ const ApplyLinkInfo: FC = () => {
 
 const FormModal = () => {
   const { dismissTop } = useModalStack()
-  const inputs = useRef([
+  const [inputs] = useState(() => [
     {
       name: 'author',
       placeholder: '昵称 *',
@@ -370,30 +373,18 @@ const FormModal = () => {
         },
       ],
     },
-  ]).current
-  const [state, setState] = useState({
-    author: '',
-    name: '',
-    url: '',
-    avatar: '',
-    description: '',
-    email: '',
-  })
+  ])
 
-  const setValue = useCallback((key: keyof typeof state, value: string) => {
-    setState((prevState) => ({ ...prevState, [key]: value }))
-  }, [])
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.name as keyof typeof state, e.target.value)
-  }, [])
+  const formRef = useRef<FormContextType>(null)
 
   const handleSubmit = useCallback(
     (e: any) => {
       e.preventDefault()
+      const currentValues = formRef.current?.getCurrentValues()
+      if (!currentValues) return
 
       apiClient.link
-        .applyLink({ ...state })
+        .applyLink({ ...(currentValues as any) })
         .then(() => {
           dismissTop()
           toast.success('好耶！')
@@ -406,20 +397,17 @@ const FormModal = () => {
           }
         })
     },
-    [state],
+    [dismissTop],
   )
+
   return (
     <Form
+      ref={formRef}
       className="w-full space-y-4 text-center lg:w-[300px]"
       onSubmit={handleSubmit}
     >
       {inputs.map((input) => (
-        <FormInput
-          key={input.name}
-          value={(state as any)[input.name]}
-          onChange={handleChange}
-          {...input}
-        />
+        <FormInput key={input.name} {...input} />
       ))}
 
       <StyledButton variant="primary" type="submit">
