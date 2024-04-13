@@ -7,14 +7,15 @@ import { useParams } from 'next/navigation'
 import { LoadMoreIndicator } from '~/components/modules/shared/LoadMoreIndicator'
 import { TimelineList } from '~/components/ui/list/TimelineList'
 import { Loading } from '~/components/ui/loading'
-import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition/BottomToUpSoftScaleTransitionView'
-import { BottomToUpTransitionView } from '~/components/ui/transition/BottomToUpTransitionView'
+import {
+  BottomToUpSoftScaleTransitionView,
+  BottomToUpTransitionView,
+} from '~/components/ui/transition'
 import { apiClient } from '~/lib/request'
 import { routeBuilder, Routes } from '~/lib/route-builder'
 
 import { getTopicQuery } from './query'
 
-export const dynamic = 'force-dynamic'
 export default function Page() {
   const { slug } = useParams()
   const { data } = useQuery({
@@ -67,7 +68,6 @@ export default function Page() {
                   className="flex min-w-0 items-center justify-between leading-loose"
                 >
                   <Link
-                    prefetch={false}
                     href={routeBuilder(Routes.Note, {
                       id: child.nid,
                     })}

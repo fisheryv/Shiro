@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { FooterConfig } from './config'
 
+import { fetchAggregationData } from '~/app/(app)/api'
 import { IonIosArrowDown } from '~/components/icons/arrow'
 import { SubscribeTextButton } from '~/components/modules/subscribe/SubscribeTextButton'
 import { FloatPopover } from '~/components/ui/float-popover'
@@ -39,9 +40,7 @@ export const FooterInfo = () => {
 }
 
 const FooterLinkSection = async () => {
-  const queryClient = getQueryClient()
-  const data = await queryClient.fetchQuery(queries.aggregation.root())
-  const { footer } = data.theme
+  const { footer } = (await fetchAggregationData()).theme
   const footerConfig: FooterConfig = footer || {
     linkSections: defaultLinkSections,
   }
@@ -125,11 +124,18 @@ const PoweredBy: Component = ({ className }) => {
           </StyledLink>
         }
       >
-        {process.env.COMMIT_HASH && (
-          <MLink
-            href={`https://github.com/innei/Shiro/commit/${process.env.COMMIT_HASH}`}
-          >
-            开源版本哈希：{process.env.COMMIT_HASH}
+        这是{' '}
+        <StyledLink
+          className="underline"
+          href="https://github.com/innei/Shiro"
+          target="_blank"
+        >
+          Shiro
+        </StyledLink>{' '}
+        的开源版本。
+        {process.env.COMMIT_HASH && process.env.COMMIT_URL && (
+          <MLink href={process.env.COMMIT_URL}>
+            版本哈希：{process.env.COMMIT_HASH.slice(0, 8)}
           </MLink>
         )}
       </FloatPopover>
@@ -208,7 +214,11 @@ const FooterBottom = async () => {
           </>
         )}
 
-        <Divider className="inline" />
+        {icp ? (
+          <Divider className="inline" />
+        ) : (
+          <Divider className="hidden md:inline" />
+        )}
         <GatewayInfo />
         {/* {!!lastVisitor && (
           <>

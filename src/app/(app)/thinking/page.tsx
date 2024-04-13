@@ -80,6 +80,7 @@ const PostBox = () => {
   return (
     <form onSubmit={preventDefault} className="mb-8">
       <TextArea
+        bordered={false}
         wrapperClassName="h-[150px] bg-gray-200/50 dark:bg-zinc-800/50"
         value={value}
         placeholder="此刻在想什么？"
@@ -112,11 +113,10 @@ const List = () => {
   const { data, isLoading, fetchNextPage } = useInfiniteQuery({
     queryKey: QUERY_KEY,
     queryFn: async ({ pageParam }) => {
-      const { data } = await apiClient.shorthand.getList(
-        pageParam,
-        undefined,
-        FETCH_SIZE,
-      )
+      const { data } = await apiClient.shorthand.getList({
+        before: pageParam,
+        size: FETCH_SIZE,
+      })
 
       if (data.length < FETCH_SIZE) {
         setHasNext(false)
@@ -202,7 +202,7 @@ const List = () => {
                   className="size-[40px] rounded-full ring-2 ring-slate-200 dark:ring-zinc-800"
                 />
               </div>
-              <div>
+              <div className="min-w-0 max-w-full">
                 <div className="flex items-center space-x-2">
                   <span className="text-lg font-medium">{owner.name}</span>
 
@@ -211,22 +211,23 @@ const List = () => {
                   </span>
                 </div>
 
-                <div
-                  className={clsx(
-                    'relative inline-block rounded-xl p-3 text-zinc-800 dark:text-zinc-200',
-                    'rounded-tl-sm bg-zinc-600/5 dark:bg-zinc-500/20',
-                    'max-w-[calc(100%-3rem)]',
-                  )}
-                >
-                  <Markdown>{item.content}</Markdown>
+                <div className="relative min-w-0 grow">
+                  <div
+                    className={clsx(
+                      'relative inline-block rounded-xl p-3 text-zinc-800 dark:text-zinc-200',
+                      'rounded-tl-sm bg-zinc-600/5 dark:bg-zinc-500/20',
+                      'max-w-full overflow-auto',
+                    )}
+                  >
+                    <Markdown>{item.content}</Markdown>
 
-                  {!!item.ref && (
-                    <div>
-                      <RefPreview refModel={item.ref} />
-                    </div>
-                  )}
+                    {!!item.ref && (
+                      <div>
+                        <RefPreview refModel={item.ref} />
+                      </div>
+                    )}
+                  </div>
                 </div>
-
                 <div
                   className={clsx(
                     'mt-4 space-x-8 opacity-50 duration-200 hover:opacity-100',

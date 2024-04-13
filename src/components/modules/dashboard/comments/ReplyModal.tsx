@@ -15,7 +15,7 @@ import { PresentSheet } from '~/components/ui/sheet'
 import { useEventCallback } from '~/hooks/common/use-event-callback'
 import { useUncontrolledInput } from '~/hooks/common/use-uncontrolled-input'
 import { toast } from '~/lib/toast'
-import { useReplyCommentMutation } from '~/queries/definition/comment'
+import { useReplyCommentMutation } from '~/queries/hooks/comment'
 
 import { KAOMOJI_LIST } from './kaomoji'
 
@@ -132,7 +132,9 @@ export const ReplyModal = (props: { comment: CommentModel }) => {
         <Label>回复 {author}：</Label>
         <div className="relative mt-4 h-[100px]">
           <TextArea
-            className="cursor-not-allowed rounded-md bg-gray-100 dark:bg-neutral-900"
+            bordered={false}
+            className="cursor-not-allowed bg-gray-100 dark:bg-neutral-900"
+            rounded="md"
             readOnly
             value={text}
             onCmdEnter={(e) => {

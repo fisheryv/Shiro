@@ -16,7 +16,7 @@ import { TimelineProgress } from '~/components/modules/timeline/TimelineProgress
 import { Divider } from '~/components/ui/divider'
 import { BackToTopFAB } from '~/components/ui/fab'
 import { TimelineList } from '~/components/ui/list/TimelineList'
-import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition/BottomToUpSoftScaleTransitionView'
+import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition'
 import { apiClient } from '~/lib/request'
 import { springScrollToElement } from '~/lib/scroller'
 
@@ -234,11 +234,7 @@ const Item = memo<{
             day: '2-digit',
           }).format(item.date)}
         </span>
-        <PeekLink
-          prefetch={false}
-          href={item.href}
-          className="min-w-0 truncate leading-6"
-        >
+        <PeekLink href={item.href} className="min-w-0 truncate leading-6">
           <span className="min-w-0 truncate">{item.title}</span>
         </PeekLink>
         {item.important && (
