@@ -253,9 +253,9 @@ const windsock = [
     icon: FaSolidComments,
   },
   {
-    title: '跃迁',
+    title: 'GPT',
     icon: RMixPlanet,
-    path: 'https://travel.moe/go.html',
+    path: 'https://gpt.ilovemath.xyz',
   },
 ]
 
