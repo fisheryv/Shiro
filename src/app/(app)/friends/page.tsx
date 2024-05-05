@@ -3,7 +3,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { memo, useCallback, useRef, useState } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Markdown from 'markdown-to-jsx'
 import type { LinkModel } from '@mx-space/api-client'
 import type { FormContextType } from '~/components/ui/form'
@@ -157,9 +157,9 @@ const Card: FC<{ link: LinkModel }> = ({ link }) => {
       aria-label={`Go to ${link.name}'s website`}
       className="relative flex flex-col items-center justify-center"
       onMouseEnter={() => setEnter(true)}
-      onMouseLeave={() => setEnter(false)}
+      onMouseLeave={() => setEnter(false)} rel="noreferrer"
     >
-      <AnimatePresence mode="wait">{enter && <LayoutBg />}</AnimatePresence>
+      {enter && <LayoutBg />}
 
       <Avatar
         randomColor
@@ -190,7 +190,7 @@ const FavoriteSection: FC<FriendSectionProps> = ({ data }) => {
             <a
               href={link.url}
               target="_blank"
-              className="shrink-0 text-base leading-none"
+              className="shrink-0 text-base leading-none" rel="noreferrer"
             >
               {link.name}
             </a>

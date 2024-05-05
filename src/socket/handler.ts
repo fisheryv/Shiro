@@ -50,12 +50,12 @@ import { EventTypes } from '~/types/events'
 
 import { WsEvent } from './util'
 
-const trackerRealtimeEvent = () => {
+const trackerRealtimeEvent = (label = 'Socket Realtime Event') => {
   document.dispatchEvent(
     new CustomEvent('impression', {
       detail: {
         action: TrackerAction.Impression,
-        label: 'Socket Realtime Event',
+        label,
       },
     }),
   )
@@ -173,7 +173,7 @@ export const eventHandler = (
     case EventTypes.NOTE_CREATE: {
       const { title, nid } = data as NoteModel
 
-      toast.success('有新的内容发布了：' + `「${title}」`, {
+      toast.success(`有新的内容发布了：「${title}」`, {
         onClick: () => {
           window.peek(`/notes/${nid}`)
         },
@@ -187,7 +187,7 @@ export const eventHandler = (
 
     case EventTypes.POST_CREATE: {
       const { title, category, slug } = data as PostModel
-      toast.success('有新的内容发布了：' + `「${title}」`, {
+      toast.success(`有新的内容发布了：「${title}」`, {
         onClick: () => {
           window.peek(`/posts/${category.slug}/${slug}`)
         },
@@ -261,24 +261,22 @@ export const eventHandler = (
         id: string
       }
 
-      const queryData = queryClient.getQueryData<
-        InfiniteData<PaginateResult<CommentModel>>
-      >(buildCommentsQueryKey(payload.ref))
+      setTimeout(() => {
+        const queryData = queryClient.getQueryData<
+          InfiniteData<PaginateResult<CommentModel>>
+        >(buildCommentsQueryKey(payload.ref))
 
-      if (!queryData) return
-      for (const page of queryData.pages) {
-        if (page.data.some((comment) => comment.id === payload.id)) {
-          return
+        if (!queryData) return
+        for (const page of queryData.pages) {
+          if (page.data.some((comment) => comment.id === payload.id)) {
+            return
+          }
         }
-      }
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          queryClient.invalidateQueries({
-            queryKey: buildCommentsQueryKey(payload.ref),
-          })
+        queryClient.invalidateQueries({
+          queryKey: buildCommentsQueryKey(payload.ref),
         })
-      })
+      }, 1000)
 
       break
     }
@@ -336,19 +334,21 @@ export const eventHandler = (
       break
     }
 
-    case 'shiro#update': {
-      toast.info('站点版本已更新，请刷新页面', {
+    case 'fn#shiro#update': {
+      toast.info('网站已更新，请刷新页面', {
         onClick: () => {
           location.reload()
         },
+        autoClose: false,
       })
+      trackerRealtimeEvent('Shiro Update')
       break
     }
 
     default: {
       if (isDev) {
         // eslint-disable-next-line no-console
-        console.log(type, data)
+        console.info(type, data)
       }
     }
   }
