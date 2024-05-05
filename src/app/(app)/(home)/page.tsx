@@ -186,9 +186,7 @@ const Hero = () => {
             'text-neutral-800/80 center dark:text-neutral-200/80',
           )}
         >
-          <small className="text-center">
-            当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。
-          </small>
+          <small>我闭上眼睛触碰星空，阅读宇宙留给我的盲文。</small>
           <span className="mt-8 animate-bounce">
             <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
           </span>
@@ -254,9 +252,9 @@ const windsock = [
     icon: FaSolidComments,
   },
   {
-    title: '跃迁',
+    title: 'GPT',
     icon: RMixPlanet,
-    path: 'https://travel.moe/go.html',
+    path: 'https://gpt.ilovemath.xyz',
   },
 ]
 
